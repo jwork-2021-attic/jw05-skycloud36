@@ -5,8 +5,8 @@ import com.anish.maze.World;
 import java.awt.Color;
 
 public class Player extends Creature{
-    public Player(Color color, char glyph, World world) {
-        super(color, glyph, world);
+    public Player(Color color, char glyph, World world, int xPos, int yPos) {
+        super(color, glyph, world, xPos, yPos);
         auto = false;
         answerloc = 0;
     }
@@ -14,32 +14,29 @@ public class Player extends Creature{
     public Boolean moveBy(int xPos, int yPos) {
         int x = this.getX()+xPos;
         int y = this.getY()+yPos;
-        if(!(this.world.get(x, y) instanceof Wall)){
+        if(!(this.getWorld().get(x, y) instanceof Wall)){
             this.moveTo(x, y);
         }
-        else{
-            this.moveTo(this.getX(), this.getY());
-        }
-        return this.world.atFinalPoint(x, y);
+        return false;
     }
 
     public Boolean moveUp(){
-        this.world.put(new Up(this.world), this.getX(), this.getY());
+        // this.world.put(new Up(this.world), this.getX(), this.getY());
         return this.moveBy(0, -1);
     }
 
     public Boolean moveDown(){
-        this.world.put(new Down(this.world), this.getX(), this.getY());
+        // this.world.put(new Down(this.world), this.getX(), this.getY());
         return this.moveBy(0, 1);
     }
 
     public Boolean moveRight(){
-        this.world.put(new Right(this.world), this.getX(), this.getY());
+        // this.world.put(new Right(this.world), this.getX(), this.getY());
         return this.moveBy(1, 0);
     }
 
     public Boolean moveLeft(){
-        this.world.put(new Left(this.world), this.getX(), this.getY());
+        // this.world.put(new Left(this.world), this.getX(), this.getY());
         return this.moveBy(-1, 0);
     }
 
@@ -60,7 +57,6 @@ public class Player extends Creature{
         else{
             auto = true;
             answerloc = 0;
-            answer = this.world.getPath(this.getX(), this.getY());
             return this.moveAuto();
         }
         return false;

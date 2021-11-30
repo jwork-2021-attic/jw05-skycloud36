@@ -3,6 +3,7 @@ package com.anish.screen;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
+import com.anish.thing.Creature;
 import com.anish.thing.Player;
 import com.anish.maze.World;
 
@@ -16,8 +17,8 @@ public class WorldScreen implements Screen {
 
     public WorldScreen() {
         world = new World();
-        player = new Player(Color.gray, (char)2, world);
-        world.put(player,0,1);
+        player = new Player(Color.gray, (char)2, world, 1, 1);
+        world.addCreatures(player);
     }
 
 
@@ -28,8 +29,15 @@ public class WorldScreen implements Screen {
                 terminal.write(world.get(x, y).getGlyph(), x, y, world.get(x, y).getColor());
             }
         }
+        for(Creature t : world.getCreatures()){
+            terminal.write(t.getGlyph(), t.getX(), t.getY(), t.getColor());
+        }
+        displayPlayer(terminal);
     }
 
+    private void displayPlayer(AsciiPanel terminal){
+        terminal.write(player.getGlyph(), player.getX(), player.getY(), player.getColor());
+    }
 
     @Override
     public Screen respondToUserInput(KeyEvent key) {

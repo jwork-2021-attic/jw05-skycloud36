@@ -2,6 +2,9 @@ package com.anish.maze;
 
 import javax.swing.text.StyledEditorKit.BoldAction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.anish.thing.*;
 
 public class World {
@@ -10,8 +13,8 @@ public class World {
     public static final int HEIGHT = 20;
 
     private Tile<Thing>[][] tiles;
-    private MazeDecrypt mDecrypt;
     private MazeGenerator maze;
+    private List<Creature> creatures;
 
     public World() {
 
@@ -22,18 +25,15 @@ public class World {
         maze = new MazeGenerator(WIDTH, HEIGHT);
         maze.generateMaze();
 
-        mDecrypt = new MazeDecrypt(WIDTH, HEIGHT);
-
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 tiles[i][j] = new Tile<>(i, j);
                 int t = maze.PassByLoc(i, j);
-                mDecrypt.put(t, i, j);
                 tiles[i][j].setThing(getThingByrank(t));
             }
         }
 
-        mDecrypt.findPath();
+        creatures = new ArrayList<>();
     }
 
     public Thing get(int x, int y) {
@@ -43,19 +43,16 @@ public class World {
         return null;
     }
 
-    public Boolean atFinalPoint(int x, int y){
-        return x == mDecrypt.elocx && y == mDecrypt.elocy;
-    }
 
     public void put(Thing t, int x, int y) {
         if (pointInWorld(x, y)){
+            // if(t.getOldThing() != null){
+            //     t.setOldThing(this.get(x, y));
+            // }
             this.tiles[x][y].setThing(t);
         }
     }
 
-    public String getPath(int x, int y){
-        return mDecrypt.getPath(x, y);
-    }
 
     private Thing getThingByrank(int x){
         switch(x){
@@ -69,5 +66,13 @@ public class World {
 
     private Boolean pointInWorld(int x, int y){
         return x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT;
+    }
+
+    public void addCreatures(Creature creature){
+        this.creatures.add(creature);
+    }
+
+    public List<Creature> getCreatures(){
+        return creatures;
     }
 }

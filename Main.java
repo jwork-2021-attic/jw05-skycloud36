@@ -3,6 +3,13 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.JFrame;
 
 import com.anish.maze.MazeGenerator;
@@ -20,6 +27,8 @@ public class Main extends JFrame implements KeyListener {
     private AsciiPanel terminal;
     private Screen screen;
 
+
+
     public Main() {
         super();
         terminal = new AsciiPanel(World.WIDTH, World.HEIGHT, AsciiFont.TALRYTH_15_15);
@@ -27,7 +36,11 @@ public class Main extends JFrame implements KeyListener {
         pack();
         screen = new StartScreen();
         addKeyListener(this);
-        repaint();
+        // paintByTimer();
+        paintByThread();
+        // Thread t = new MyThread();
+        // t.start();
+        // repaint();
 
     }
 
@@ -46,12 +59,40 @@ public class Main extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         screen = screen.respondToUserInput(e);
-        repaint();
+        // repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    private void paintByTimer(){
+        Runnable runnable = new Runnable(){
+            @Override
+            public void run(){
+                repaint();
+            }
+        };
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(runnable, 0, 30, TimeUnit.MILLISECONDS);
+    }
+
+    private void paintByThread(){
+        class MyThread extends Thread{
+            @Override
+            public void run(){
+                Timer myTimer = new Timer();
+                class myTask extends TimerTask{
+                    @Override
+                    public void run(){repaint();}
+                };
+                myTask mytask = new myTask();
+                myTimer.schedule(mytask, 0, 30);
+            }
+        };
+        Thread t = new MyThread();
+        t.start();
     }
 
     public static void main(String[] args) {
