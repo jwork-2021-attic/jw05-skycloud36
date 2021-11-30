@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import com.anish.thing.Creature;
+import com.anish.thing.Enemy;
 import com.anish.thing.Player;
+import com.anish.thing.Enemy;
 import com.anish.maze.World;
 
 import asciiPanel.AsciiPanel;
@@ -17,10 +19,10 @@ public class WorldScreen implements Screen {
 
     public WorldScreen() {
         world = new World();
-        player = new Player(Color.gray, (char)2, world, 1, 1);
-        world.addCreatures(player);
+        player = new Player(Color.RED, (char)2, world, 1, 1);
+        Enemy e1 = new Enemy(Color.BLUE, (char)2, world, 20, 10);
+        world.addCreatures(e1);
     }
-
 
     @Override
     public void displayOutput(AsciiPanel terminal) {
@@ -59,7 +61,6 @@ public class WorldScreen implements Screen {
             t = player.moveDown();
             player.auto = false;
             break;
-        default:t = player.moveAuto();
     }
         if(t)
             return new WinScreen();

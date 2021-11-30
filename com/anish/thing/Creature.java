@@ -58,6 +58,35 @@ public class Creature{
         return this.world;
     }
 
+    public Boolean moveBy(int xPos, int yPos) {
+        int x = this.getX()+xPos;
+        int y = this.getY()+yPos;
+        if(!(this.getWorld().get(x, y) instanceof Wall)){
+            this.moveTo(x, y);
+        }
+        return false;
+    }
+
+    public Boolean moveUp(){
+        // this.world.put(new Up(this.world), this.getX(), this.getY());
+        return this.moveBy(0, -1);
+    }
+
+    public Boolean moveDown(){
+        // this.world.put(new Down(this.world), this.getX(), this.getY());
+        return this.moveBy(0, 1);
+    }
+
+    public Boolean moveRight(){
+        // this.world.put(new Right(this.world), this.getX(), this.getY());
+        return this.moveBy(1, 0);
+    }
+
+    public Boolean moveLeft(){
+        // this.world.put(new Left(this.world), this.getX(), this.getY());
+        return this.moveBy(-1, 0);
+    }
+
 }
 
 
