@@ -7,21 +7,11 @@ import java.awt.Color;
 public class Creature extends Thing{
     private int xPos, yPos;
 
-    // private World world;
-    // public static World world;
-    // private final char glyph;
-    // private Color color;
-
     Creature(Color color, char glyph, World world, int xPos, int yPos) {
         super(color, glyph, world);
-        // this.color = color;
-        // this.glyph = glyph;
-        // this.world = world;
-
         this.xPos = xPos;
         this.yPos = yPos;
         world.put(this, xPos, yPos);
-
         this.exist = true;
     }
 
@@ -78,16 +68,14 @@ public class Creature extends Thing{
         if(thing.getName() == "Floor"){
             this.moveTo(x, y);
         }
-        if(this.getName() == "Player" && thing.getName() == "Enemy"){
+        if(this.getName() == "Player" && thing.getName() == "BlueTeam"){
             thing.beAttacked();
         }
-        // this.world.setBackground(this.getX() - xPos, this.getY() - yPos);
     }
 
     public synchronized void moveByTest(int xPos, int yPos) { 
         int x = this.getX()+xPos;
         int y = this.getY()+yPos;
-        // this.moveTest(x, y);
         if(this.world.get(x, y).getName() == "Floor"){
             this.moveTo(x, y);
         }
@@ -132,24 +120,6 @@ public class Creature extends Thing{
         // this.world.put(new Left(this.world), this.getX(), this.getY());
         this.moveByTest(-1, 0);
     }
-
-    
-    // public Color getColor() {
-    //     return this.color;
-    // }
-
-    // public void setColor(Color color){
-    //     this.color = color;
-    // }
-
-    // public char getGlyph() {
-    //     return this.glyph;
-    // }
-
-    // public World getWorld(){
-    //     return this.world;
-    //     // return Creature.world;
-    // }
 
     private boolean exist;
 

@@ -45,6 +45,19 @@ public class Main extends JFrame implements KeyListener {
     public void repaint() {
         terminal.clear();
         screen.displayOutput(terminal);
+        if(screen instanceof WorldScreen){
+            Screen temp = ((WorldScreen)screen).Finish();
+            if(temp != null){    
+                super.repaint();
+                screen = temp;
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
         super.repaint();
     }
 

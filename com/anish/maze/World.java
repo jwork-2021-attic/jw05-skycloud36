@@ -83,8 +83,6 @@ public class World {
         switch(x){
             case 0:return new Wall(this);
             case 1:return new Floor(this);
-            case 2:return new StartPoint(this);
-            case 3:return new EndPoint(this);
             default: return new Wall(this);
         }
     }

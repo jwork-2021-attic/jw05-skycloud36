@@ -8,39 +8,39 @@ import java.util.TimerTask;
 
 import com.anish.maze.World;
 
-public class Enemy extends Creature{
+public class BlueTeam extends Creature{
 
-    public Enemy(Color color, char glyph, World world, int xPos, int yPos) {
+    public BlueTeam(Color color, char glyph, World world, int xPos, int yPos) {
         super(color, glyph, world, xPos, yPos);
-        this.name = "Enemy";
+        this.name = "BlueTeam";
         moveByThread(this);
     }
 
     public void moveRandom(){
         Random random = new Random();
-        moveByTest(1, 0);
+        int k = random.nextInt(4);
+        switch(k){
+            case 0:moveByTest(0, 1);    break;
+            case 1:moveByTest(0, -1);   break;
+            case 2:moveByTest(-1, 0);   break;
+            case 3:moveByTest(1, 0);    break;
+        }
         System.out.println(this.getName() + "x:" + this.getX() + "y:" + this.getY());
-        // moveBy(1, 0);
-        // int k = random.nextInt(4);
-        // switch(k){
-        //     case 0:moveBy(0, 1);    break;
-        //     case 1:moveBy(0, -1);   break;
-        //     case 2:moveBy(-1, 0);   break;
-        //     case 3:moveBy(1, 0);    break;
-        // }
     }
 
     @Override
     public void beAttacked(){
         this.world.setBackground(this.getX(), this.getY());
         this.beDead();
+        this.world.getCreatures().remove(this);
+        System.out.println(this.getName() + Thread.currentThread().getId() + "dead");
     }
     
-    private void moveByThread(Enemy enemy){
+    private void moveByThread(BlueTeam enemy){
         class MyThread extends Thread{
-            Enemy enemy;
+            BlueTeam enemy;
 
-            MyThread(Enemy enemy){
+            MyThread(BlueTeam enemy){
                 this.enemy = enemy;
             }
 
@@ -54,8 +54,8 @@ public class Enemy extends Creature{
                             enemy.moveRandom();
                         }
                         else{
-                            enemy.world.getCreatures().remove(enemy);
-                            System.out.println(enemy.getName() + "dead");
+                            // enemy.world.getCreatures().remove(enemy);
+                            // System.out.println(enemy.getName() + Thread.currentThread().getId() + "dead");
                             cancel();
                         }
                     }
