@@ -11,8 +11,34 @@ public class Tile<T extends Thing> {
     }
 
     public void setThing(T thing) {
-        this.thing = thing;
-        this.thing.setTile(this);
+        synchronized(this){
+            this.thing = thing;
+            
+            // this.thing.setTile(this);
+            thing.setTile(this);
+        }
+    }
+
+    public Thing setPlayingThing(T thing){
+        synchronized(this){
+            // try {
+            //     if(this.getThing() instanceof Floor){
+            //         this.thing = thing;
+            //         thing.setTile(this);
+            //         Thread.sleep(1000);
+            //     }
+            // } catch (InterruptedException e) {
+            //     System.out.println(Thread.currentThread().getId() + "tile" + this.toString());
+            //     e.printStackTrace();
+            // }
+            // return true;
+            if(this.getThing() instanceof Floor){
+                this.thing = thing;
+                thing.setTile(this);
+                return null;
+            }
+            else return this.getThing();
+        }
     }
 
     public int getxPos() {

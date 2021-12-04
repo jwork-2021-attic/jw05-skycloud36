@@ -7,5 +7,6 @@ import asciiPanel.AsciiPanel;
 public class StartPoint extends Thing {
     public StartPoint(World world){
         super(AsciiPanel.brightRed, (char) 10, world);
+        this.name = "StartPoint";
     }
 }

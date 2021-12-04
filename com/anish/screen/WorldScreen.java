@@ -20,8 +20,16 @@ public class WorldScreen implements Screen {
     public WorldScreen() {
         world = new World();
         player = new Player(Color.RED, (char)2, world, 1, 1);
-        Enemy e1 = new Enemy(Color.BLUE, (char)2, world, 20, 10);
+        Enemy e1 = new Enemy(Color.BLUE, (char)2, world, 2, 1);
+        Enemy e2 = new Enemy(Color.green, (char)2, world, 20, 1);
+        Enemy e3 = new Enemy(Color.gray, (char)2, world, 20, 1);
+        Enemy e4 = new Enemy(Color.yellow, (char)2, world, 20, 1);
+        Enemy e5 = new Enemy(Color.pink, (char)2, world, 20, 1);
         world.addCreatures(e1);
+        world.addCreatures(e2);
+        world.addCreatures(e3);
+        world.addCreatures(e4);
+        world.addCreatures(e5);
     }
 
     @Override
@@ -43,28 +51,27 @@ public class WorldScreen implements Screen {
 
     @Override
     public Screen respondToUserInput(KeyEvent key) {
-        Boolean t = false;
-    switch(key.getKeyCode()){
-        case KeyEvent.VK_LEFT:
-            t = player.moveLeft();
-            player.auto = false;
-            break;
-        case KeyEvent.VK_RIGHT:
-            t = player.moveRight();
-            player.auto = false;
-            break;
-        case KeyEvent.VK_UP:
-            t = player.moveUp();
-            player.auto = false;
-            break;
-        case KeyEvent.VK_DOWN:
-            t = player.moveDown();
-            player.auto = false;
-            break;
-    }
-        if(t)
-            return new WinScreen();
+        switch(key.getKeyCode()){
+            case KeyEvent.VK_LEFT:
+                player.moveLeft();
+                // player.moveLeftTest();
+                break;
+            case KeyEvent.VK_RIGHT:
+                player.moveRight();
+                // player.moveRightTest();
+                break;
+            case KeyEvent.VK_UP:
+                player.moveUp();
+                // player.moveUpTest();
+                break;
+            case KeyEvent.VK_DOWN:
+                player.moveDown();
+                // player.moveDownTest();
+                break;
+        }
         return this;
     }
+
+    
 
 }

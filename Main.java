@@ -34,13 +34,10 @@ public class Main extends JFrame implements KeyListener {
         terminal = new AsciiPanel(World.WIDTH, World.HEIGHT, AsciiFont.TALRYTH_15_15);
         add(terminal);
         pack();
-        screen = new StartScreen();
+        // screen = new StartScreen();
+        screen = new WorldScreen();
         addKeyListener(this);
-        // paintByTimer();
         paintByThread();
-        // Thread t = new MyThread();
-        // t.start();
-        // repaint();
 
     }
 
@@ -85,7 +82,9 @@ public class Main extends JFrame implements KeyListener {
                 Timer myTimer = new Timer();
                 class myTask extends TimerTask{
                     @Override
-                    public void run(){repaint();}
+                    public void run(){
+                        repaint();
+                    }
                 };
                 myTask mytask = new myTask();
                 myTimer.schedule(mytask, 0, 30);

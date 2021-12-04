@@ -13,6 +13,8 @@ public class World {
     public static final int HEIGHT = 20;
 
     private Tile<Thing>[][] tiles;
+    private Thing[][] background;
+
     private MazeGenerator maze;
     private List<Creature> creatures;
 
@@ -22,14 +24,20 @@ public class World {
             tiles = new Tile[WIDTH][HEIGHT];
         }
 
+        if (background == null){
+            background = new Thing[WIDTH][HEIGHT];
+        }
+
         maze = new MazeGenerator(WIDTH, HEIGHT);
         maze.generateMaze();
 
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 tiles[i][j] = new Tile<>(i, j);
-                int t = maze.PassByLoc(i, j);
-                tiles[i][j].setThing(getThingByrank(t));
+                // int t = maze.PassByLoc(i, j);
+                Thing t = getThingByrank(maze.PassByLoc(i, j));
+                background[i][j] = t;
+                tiles[i][j].setThing(t);
             }
         }
 
@@ -43,14 +51,31 @@ public class World {
         return null;
     }
 
+    public void setBackground(int x, int y){
+        tiles[x][y].setThing(background[x][y]);
+    }
+
+    public Thing getBackground(int x, int y) {
+        if (pointInWorld(x, y)){
+            return this.background[x][y];
+        }
+        return null;
+    }
+
 
     public void put(Thing t, int x, int y) {
         if (pointInWorld(x, y)){
-            // if(t.getOldThing() != null){
-            //     t.setOldThing(this.get(x, y));
-            // }
+            // this.tiles[x][y].setThing(t);
             this.tiles[x][y].setThing(t);
         }
+    }
+
+    public Thing putPlayingThing(Thing t, int x, int y) {
+        if (pointInWorld(x, y)){
+            // this.tiles[x][y].setThing(t);
+            return this.tiles[x][y].setPlayingThing(t);
+        }
+        else return null;
     }
 
 

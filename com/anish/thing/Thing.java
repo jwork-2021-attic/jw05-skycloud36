@@ -7,6 +7,10 @@ import java.awt.Color;
 public class Thing {
     protected World world;
 
+    // public World getWorld(){
+    //     return world;
+    // }
+
     public Tile<? extends Thing> tile;
 
     public int getX() {
@@ -36,7 +40,7 @@ public class Thing {
         this.world = world;
     }
 
-    private final Color color;
+    private Color color;
 
     public Color getColor() {
         return this.color;
@@ -48,6 +52,12 @@ public class Thing {
         return this.glyph;
     }
 
+    protected String name;
+
+    public String getName(){
+        return this.name;
+    }
+
     // private Thing oldThing;
 
     // public Thing getOldThing(){
@@ -57,4 +67,8 @@ public class Thing {
     // public void setOldThing(Thing thing){
     //     oldThing = thing;
     // }
+
+    public void beAttacked(){
+        
+    }
 }
