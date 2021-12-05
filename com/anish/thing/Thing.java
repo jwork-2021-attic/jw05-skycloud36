@@ -4,7 +4,7 @@ import com.anish.maze.World;
 
 import java.awt.Color;
 
-public class Thing {
+public class Thing implements CreatureAttribute{
     protected World world;
 
     // public World getWorld(){
@@ -58,17 +58,19 @@ public class Thing {
         return this.name;
     }
 
-    // private Thing oldThing;
-
-    // public Thing getOldThing(){
-    //     return oldThing;
+    // protected String team;
+    
+    // public String getTeam(){
+    //     return this.team;
     // }
 
-    // public void setOldThing(Thing thing){
-    //     oldThing = thing;
+    // protected String enemyTeam;
+
+    // public String getEnemyTeam(){
+    //     return this.enemyTeam;
     // }
 
-    public void beAttacked(){
+    // public void beAttacked(){
         
-    }
+    // }
 }

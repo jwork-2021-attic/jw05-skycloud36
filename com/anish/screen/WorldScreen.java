@@ -6,12 +6,13 @@ import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 import com.anish.thing.Creature;
-import com.anish.thing.BlueTeam;
+import com.anish.thing.First;
 import com.anish.thing.Player;
-import com.anish.thing.BlueTeam;
+import com.anish.thing.First;
 import com.anish.maze.World;
 
 import asciiPanel.AsciiPanel;
+
 
 public class WorldScreen implements Screen {
 
@@ -22,16 +23,17 @@ public class WorldScreen implements Screen {
     public WorldScreen() {
         world = new World();
         player = new Player(Color.RED, (char)2, world, 1, 1);
-        BlueTeam e1 = new BlueTeam(Color.BLUE, (char)2, world, 20, 10);
-        BlueTeam e2 = new BlueTeam(Color.green, (char)2, world, 20, 11);
-        BlueTeam e3 = new BlueTeam(Color.gray, (char)2, world, 20, 12);
-        BlueTeam e4 = new BlueTeam(Color.yellow, (char)2, world, 20, 13);
-        BlueTeam e5 = new BlueTeam(Color.pink, (char)2, world, 20, 14);
-        world.addCreatures(e1);
-        world.addCreatures(e2);
-        world.addCreatures(e3);
-        world.addCreatures(e4);
-        world.addCreatures(e5);
+        world.addRed(player);
+        First e1 = new First(Color.BLUE, (char)2, world, 20, 10, "BlueTeam");
+        First e2 = new First(Color.green, (char)2, world, 20, 11, "BlueTeam");
+        First e3 = new First(Color.gray, (char)2, world, 20, 12, "BlueTeam");
+        First e4 = new First(Color.yellow, (char)2, world, 20, 13, "BlueTeam");
+        First e5 = new First(Color.pink, (char)2, world, 20, 14, "BlueTeam");
+        world.addBlue(e1);
+        world.addBlue(e2);
+        world.addBlue(e3);
+        world.addBlue(e4);
+        world.addBlue(e5);
     }
 
     @Override
@@ -41,10 +43,13 @@ public class WorldScreen implements Screen {
                 terminal.write(world.get(x, y).getGlyph(), x, y, world.get(x, y).getColor());
             }
         }
-        for(Creature t : world.getCreatures()){
+        for(Creature t : world.getBlue()){
             terminal.write(t.getGlyph(), t.getX(), t.getY(), t.getColor());
         }
-        displayPlayer(terminal);
+        for(Creature t : world.getRed()){
+            terminal.write(t.getGlyph(), t.getX(), t.getY(), t.getColor());
+        }
+        // displayPlayer(terminal);
     }
 
     private void displayPlayer(AsciiPanel terminal){
@@ -75,8 +80,11 @@ public class WorldScreen implements Screen {
     }
 
     public Screen Finish(){
-        if(this.world.getCreatures().size() == 0){
+        if(this.world.getBlue().size() == 0){
             return new WinScreen();
+        }
+        else if(this.world.getRed().size() == 0){
+            return new LoseScreen();
         }
         return null;
     }

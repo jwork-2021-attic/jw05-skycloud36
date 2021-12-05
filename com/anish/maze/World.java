@@ -11,12 +11,12 @@ public class World {
 
     public static final int WIDTH = 40;
     public static final int HEIGHT = 20;
-
     private Tile<Thing>[][] tiles;
     private Thing[][] background;
 
     private MazeGenerator maze;
-    private List<Creature> creatures;
+    private List<Creature> blueTeam;
+    private List<Creature> redTeam;
 
     public World() {
 
@@ -41,7 +41,8 @@ public class World {
             }
         }
 
-        creatures = new ArrayList<>();
+        blueTeam = new ArrayList<>();
+        redTeam = new ArrayList<>();
     }
 
     public Thing get(int x, int y) {
@@ -91,11 +92,19 @@ public class World {
         return x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT;
     }
 
-    public void addCreatures(Creature creature){
-        this.creatures.add(creature);
+    public void addBlue(Creature creature){
+        this.blueTeam.add(creature);
     }
 
-    public List<Creature> getCreatures(){
-        return creatures;
+    public void addRed(Creature creature){
+        this.redTeam.add(creature);
+    }
+
+    public List<Creature> getBlue(){
+        return blueTeam;
+    }
+
+    public List<Creature> getRed(){
+        return redTeam;
     }
 }
