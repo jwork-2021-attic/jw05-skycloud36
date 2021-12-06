@@ -11,7 +11,6 @@ import com.anish.thing.Bullet;
 import com.anish.thing.Creature;
 import com.anish.thing.CreatureAttribute;
 import com.anish.thing.First;
-import com.anish.thing.Player;
 import com.anish.thing.Second;
 import com.anish.thing.Thing;
 
@@ -29,25 +28,25 @@ public class WorldScreen implements Screen {
     private World world;
     String[] sortSteps;
     // Player player;
-
+    Shop shop = null;
     Creature player = null;
     Creature choose = null;
     int index = 0;
+    int cost = 500;
 
     public WorldScreen() {
         world = new World();
-        // Second b1 = new Second(world, 30, 27,CreatureAttribute.BLUETEAM);   world.addBlue(b1);
-        // Second b2 = new Second(world, 15, 6,CreatureAttribute.BLUETEAM);    world.addBlue(b2);
-        // Second b3 = new Second(world, 6, 19,CreatureAttribute.BLUETEAM);    world.addBlue(b3);
-        Second b4 = new Second(world, 3, 20,CreatureAttribute.BLUETEAM);   world.addBlue(b4);
-        // First b5 = new First(Color.BLUE, (char)2, world, 7, 18,CreatureAttribute.BLUETEAM);   world.addBlue(b5);
-        First b5 = new First(world, 3, 5, CreatureAttribute.BLUETEAM);     world.addBlue(b5);
-        First r1 = new First(world, 3, 4,CreatureAttribute.REDTEAM);        world.addRed(r1);
+        Second b1 = new Second(world, 70, 27,CreatureAttribute.BLUETEAM);   world.addBlue(b1);
+        Second b2 = new Second(world, 70, 6,CreatureAttribute.BLUETEAM);    world.addBlue(b2);
+        Second b3 = new Second(world, 70, 19,CreatureAttribute.BLUETEAM);    world.addBlue(b3);
+        First b4 = new First(world, 40, 20,CreatureAttribute.BLUETEAM);   world.addBlue(b4);
+        First b5 = new First(world, 40, 21, CreatureAttribute.BLUETEAM);     world.addBlue(b5);
+        // First r1 = new First(world, 3, 4,CreatureAttribute.REDTEAM);        world.addRed(r1);
         // First r2 = new First(world, 10, 7,CreatureAttribute.REDTEAM);        world.addRed(r2);
         // First r3 = new First(world, 5, 15,CreatureAttribute.REDTEAM);        world.addRed(r3);
         // Second r4 = new Second(world, 30, 1,CreatureAttribute.REDTEAM);      world.addRed(r4);
         // Second r5 = new Second(world, 60, 18,CreatureAttribute.REDTEAM);     world.addRed(r5);
-        this.gameStart();
+        // this.gameStart();
     }
 
     @Override
@@ -76,8 +75,20 @@ public class WorldScreen implements Screen {
             terminal.write(stats, 1, world.HEIGHT);
         }
         if (this.gameStart == false) {
-            stats = String.format("Game Not Start");
-            terminal.write(stats, 1, world.HEIGHT / 2);
+            for(Shop item : Shop.values()){
+                for(int i = 0; i < item.info().size(); i++){
+                    terminal.write(item.info().get(i), item.ordinal()*10, world.HEIGHT+i);
+                }
+            }
+            if(shop != null){
+                terminal.write(shop.name(), 30, world.HEIGHT);
+            }
+            else{
+                terminal.write("null", 30, world.HEIGHT);
+            }
+            stats = String.format("Money %3d Left",this.cost);
+            terminal.write(stats, 30, world.HEIGHT+1);
+            terminal.write("After Set Your Army, Press Enter To Play", 30, world.HEIGHT+2);
         }
         if (this.gamePause == true) {
             stats = String.format("Game Pause");
@@ -162,10 +173,14 @@ public class WorldScreen implements Screen {
     }
 
     public Screen Finish() {
-        if (this.world.getBlue().size() == 0) {
-            return new WinScreen();
-        } else if (this.world.getRed().size() == 0) {
-            return new LoseScreen();
+        if(gameStart == true){
+            if (this.world.getBlue().size() == 0) {
+                gameStart = false;
+                return new WinScreen();
+            } else if (this.world.getRed().size() == 0) {
+                gameStart = false;
+                return new LoseScreen();
+            }
         }
         return null;
     }
@@ -239,14 +254,38 @@ public class WorldScreen implements Screen {
 
     @Override
     public Screen respondToUserMouse(MouseEvent mouseEvent) {
-        if(true){
+        if(gameStart == false){
             int x = cursorxToWorldx(mouseEvent.getX());
             int y = cursoryToWorldy(mouseEvent.getY());
-            System.out.println("x:" + x + " y:" + y);
-            Thing temp = this.world.get(x, y);
-            if(temp.getName() == CreatureAttribute.FLOOR){     
-                First t = new First(world, x, y, CreatureAttribute.REDTEAM);
-                world.addRed(t);
+            // System.out.println("x:" + x + " y:" + y);
+            if(y >= world.HEIGHT){
+                int index = x / 10;
+                // System.out.println("index:" + index + " lenth:" + Shop.values().length);
+                if(index < Shop.values().length){
+                    this.shop = Shop.values()[index];
+                }
+                else{
+                    this.shop = null;
+                }
+                // System.out.println("shop:" + shop);
+            }
+            else{
+                Thing temp = this.world.get(x, y);
+                if(temp.getName() == CreatureAttribute.FLOOR){     
+                    if(this.shop != null && cost >= shop.cost()){
+                        switch(this.shop){
+                            case Lancer:
+                                First f = new First(world, x, y, CreatureAttribute.REDTEAM);
+                                world.getRed().add(f);
+                                break;
+                            case Archer:
+                                Second s = new Second(world, x, y, CreatureAttribute.REDTEAM);
+                                world.getRed().add(s);
+                                break;
+                        }
+                        cost -= shop.cost();
+                    }
+                }
             }
         }
         return this;
@@ -258,18 +297,5 @@ public class WorldScreen implements Screen {
 
     int cursoryToWorldy(int y) {
         return (y - 30) / 16;
-    }
-
-    void SelectThing(Thing t) {
-        // if (this.thing != null) {
-        //     this.UnSelectThing();
-        // }
-        // this.thing = t;
-        // this.thing.setColor(Color.PINK);
-    }
-
-    void UnSelectThing() {
-        // this.world.setBackground(thing.getX(), thing.getY());
-        // thing = null;
     }
 }

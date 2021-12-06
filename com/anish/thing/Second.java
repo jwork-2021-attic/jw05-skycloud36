@@ -15,24 +15,8 @@ import com.anish.screen.WorldScreen;
 import asciiPanel.AsciiPanel;
 
 public class Second extends Creature {
-
-    public Second(Color color, char glyph, World world, int xPos, int yPos, String team) {
-        super(color, glyph, world, xPos, yPos, team);
-        this.name = "Second";
-        target = null;
-        this.speed = 700;
-        this.HP = 10;
-        this.MaxHP = 10;
-        this.Defence = 0;
-        this.ATK = 1;
-        curTime = System.currentTimeMillis();
-        this.bullets = new ArrayList<>(100);
-        bulletByThread(this, 50);
-        moveByThread(this);
-    }
-
     public Second(World world, int xPos, int yPos, String team) {
-        super((char) 202, world, xPos, yPos, team);
+        super((char) 24, world, xPos, yPos, team);
         this.name = SECOND;
         target = null;
         this.speed = 700;

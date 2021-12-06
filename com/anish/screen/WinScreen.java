@@ -7,7 +7,7 @@ public class WinScreen extends RestartScreen {
 
     @Override
     public void displayOutput(AsciiPanel terminal) {
-        terminal.write("You won! Press enter to go again.", 2, 8);
+        terminal.write("You won! Press enter to go again.", 30, 20);
     }
 
 }

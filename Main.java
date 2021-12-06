@@ -36,8 +36,8 @@ public class Main extends JFrame implements KeyListener, MouseListener {
         terminal = new AsciiPanel(World.WIDTH, World.HEIGHT + 5, AsciiFont.CP437_16x16);
         add(terminal);
         pack();
-        // screen = new StartScreen();
-        screen = new WorldScreen();
+        screen = new StartScreen();
+        // screen = new WorldScreen();
         addKeyListener(this);
         addMouseListener(this);
         paintByTimer();
@@ -48,18 +48,18 @@ public class Main extends JFrame implements KeyListener, MouseListener {
     public void repaint() {
         terminal.clear();
         screen.displayOutput(terminal);
-        // if(screen instanceof WorldScreen){
-        //     Screen temp = ((WorldScreen)screen).Finish();
-        //     if(temp != null){    
-        //         super.repaint();
-        //         screen = temp;
-        //         try {
-        //             TimeUnit.MILLISECONDS.sleep(1000);
-        //         } catch (InterruptedException e) {
-        //             e.printStackTrace();
-        //         }
-        //     }
-        // }
+        if(screen instanceof WorldScreen){
+            Screen temp = ((WorldScreen)screen).Finish();
+            if(temp != null){    
+                super.repaint();
+                screen = temp;
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         super.repaint();
     }
 
@@ -70,7 +70,7 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        screen.respondToUserInput(e);
+        screen = screen.respondToUserInput(e);
         // repaint();
     }
 

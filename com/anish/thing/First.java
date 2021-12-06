@@ -12,19 +12,6 @@ import com.anish.screen.WorldScreen;
 import asciiPanel.AsciiPanel;
 
 public class First extends Creature{
-
-    public First(Color color, char glyph, World world, int xPos, int yPos, String team) {
-        super(color, glyph, world, xPos, yPos, team);
-        this.name = FIRST;
-        target = null;
-        this.speed = 500;        
-        this.HP = 100;
-        this.MaxHP = 100;
-        this.Defence = 0;
-        this.ATK = 10;
-        moveByThread(this);
-    }
-
     public First(World world, int xPos, int yPos, String team){
         super((char)202, world, xPos, yPos, team);
         this.name = FIRST;

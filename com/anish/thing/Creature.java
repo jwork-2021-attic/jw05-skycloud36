@@ -8,24 +8,6 @@ import java.util.List;
 public class Creature extends Thing implements Debug {
     protected int xPos, yPos;
 
-    Creature(Color color, char glyph, World world, int xPos, int yPos, String team) {
-        super(color, glyph, world);
-        this.team = team;
-        if (team == BLUETEAM) {
-            this.enemyTeam = REDTEAM;
-            this.enemyList = world.getRed();
-        } else if (team == REDTEAM) {
-            this.enemyTeam = BLUETEAM;
-            this.enemyList = world.getBlue();
-        }
-        this.xPos = xPos;
-        this.yPos = yPos;
-        world.put(this, xPos, yPos);
-        this.exist = true;
-        this.toward = 1;
-        selected = false;
-    }
-
     Creature(Color color, char glyph, World world, String team){
         super(color, glyph, world);
         this.team = team;
@@ -33,13 +15,14 @@ public class Creature extends Thing implements Debug {
             this.enemyTeam = REDTEAM;
             this.enemyList = world.getRed();
             this.setColor(Color.BLUE);
+            this.toward = LEFT;
         } else if (team == REDTEAM) {
             this.enemyTeam = BLUETEAM;
             this.enemyList = world.getBlue();
             this.setColor(Color.RED);
+            this.toward = RIGHT;
         }      
         this.exist = true;
-        this.toward = 1;
     }
 
     Creature(char glyph, World world, int xPos, int yPos, String team){
