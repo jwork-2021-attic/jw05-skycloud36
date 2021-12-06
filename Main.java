@@ -30,13 +30,14 @@ public class Main extends JFrame implements KeyListener {
 
     public Main() {
         super();
-        terminal = new AsciiPanel(World.WIDTH, World.HEIGHT, AsciiFont.TALRYTH_15_15);
+        // terminal = new AsciiPanel(World.WIDTH, World.HEIGHT, AsciiFont.TALRYTH_15_15);
+        terminal = new AsciiPanel(World.WIDTH, World.HEIGHT + 5, AsciiFont.CP437_16x16);
         add(terminal);
         pack();
         // screen = new StartScreen();
         screen = new WorldScreen();
         addKeyListener(this);
-        paintByThread();
+        paintByTimer();
 
     }
 
@@ -52,7 +53,6 @@ public class Main extends JFrame implements KeyListener {
                 try {
                     TimeUnit.MILLISECONDS.sleep(1000);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

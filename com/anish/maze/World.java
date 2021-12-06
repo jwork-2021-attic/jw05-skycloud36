@@ -9,8 +9,10 @@ import com.anish.thing.*;
 
 public class World {
 
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 20;
+    // public static final int WIDTH = 40;
+    // public static final int HEIGHT = 20;
+    public static final int WIDTH = 80;
+    public static final int HEIGHT = 40;
     private Tile<Thing>[][] tiles;
     private Thing[][] background;
 
@@ -21,7 +23,7 @@ public class World {
     public World() {
 
         if (tiles == null) {
-            tiles = new Tile[WIDTH][HEIGHT];
+            tiles = new Tile[WIDTH][HEIGHT]; 
         }
 
         if (background == null){

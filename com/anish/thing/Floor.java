@@ -8,7 +8,7 @@ public class Floor extends Thing {
 
     public Floor(World world) {
         super(Color.gray, (char) 0, world);
-        this.name = "Floor";
+        this.name = FLOOR;
     }
 
 }

@@ -46,31 +46,24 @@ public class Thing implements CreatureAttribute{
         return this.color;
     }
 
+    public void setColor(Color color){
+        this.color = color;
+    }
+
     private char glyph;
 
     public char getGlyph() {
         return this.glyph;
     }
 
+    public void setGlyph(char glyph){
+        this.glyph = glyph;
+    }
+
+
     protected String name;
 
     public String getName(){
         return this.name;
     }
-
-    // protected String team;
-    
-    // public String getTeam(){
-    //     return this.team;
-    // }
-
-    // protected String enemyTeam;
-
-    // public String getEnemyTeam(){
-    //     return this.enemyTeam;
-    // }
-
-    // public void beAttacked(){
-        
-    // }
 }
