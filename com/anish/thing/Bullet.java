@@ -5,19 +5,16 @@ import java.awt.Color;
 import com.anish.maze.World;
 
 public class Bullet extends Creature {
-
-    Bullet(char glyph, Thing owner, int dx, int dy) {
-        super(owner.getColor(), glyph, owner.world, owner.getTeam());
+    Bullet(Thing owner, int dx, int dy) {
+        super(owner.getColor(), (char)7, owner.world, owner.getTeam());
         this.xPos = owner.getX();
         this.yPos = owner.getY();
         this.name = BULLET;
-        this.owner = owner;
         this.ATK = owner.getATK();
         this.dx = dx;
         this.dy = dy;
     }
 
-    private Thing owner;
     private int dx = 0;
     private int dy = 0;
 
@@ -36,12 +33,15 @@ public class Bullet extends Creature {
                 this.yPos -= yPos;
                 this.beDead();
             }
-            else if(temp.getTeam() == this.getTeam()){
-                // this.world.setBackground(this.xPos, this.yPos);
-                this.xPos += xPos;
-                this.yPos += yPos;
-            }
-            else if(temp.getTeam() == this.enemyTeam){
+            // else if(temp.getTeam() == this.getTeam()){
+            //     // this.world.setBackground(this.xPos, this.yPos);
+            //     this.xPos += xPos;
+            //     this.yPos += yPos;
+            // }
+            else if(temp.getTeam() == this.enemyTeam){    
+                if(DebugBulletMove){
+                    System.out.println(temp.name);
+                }
                 this.Attack(temp);
                 this.beDead();
             }

@@ -10,4 +10,5 @@ public class LoseScreen extends RestartScreen {
         terminal.write("You lost! Press enter to try again.", 0, 0);
     }
 
+    
 }

@@ -2,6 +2,8 @@
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,7 +24,7 @@ import com.anish.screen.WorldScreen;
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 
-public class Main extends JFrame implements KeyListener {
+public class Main extends JFrame implements KeyListener, MouseListener {
 
     private AsciiPanel terminal;
     private Screen screen;
@@ -37,6 +39,7 @@ public class Main extends JFrame implements KeyListener {
         // screen = new StartScreen();
         screen = new WorldScreen();
         addKeyListener(this);
+        addMouseListener(this);
         paintByTimer();
 
     }
@@ -45,18 +48,18 @@ public class Main extends JFrame implements KeyListener {
     public void repaint() {
         terminal.clear();
         screen.displayOutput(terminal);
-        if(screen instanceof WorldScreen){
-            Screen temp = ((WorldScreen)screen).Finish();
-            if(temp != null){    
-                super.repaint();
-                screen = temp;
-                try {
-                    TimeUnit.MILLISECONDS.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        // if(screen instanceof WorldScreen){
+        //     Screen temp = ((WorldScreen)screen).Finish();
+        //     if(temp != null){    
+        //         super.repaint();
+        //         screen = temp;
+        //         try {
+        //             TimeUnit.MILLISECONDS.sleep(1000);
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // }
         super.repaint();
     }
 
@@ -67,13 +70,43 @@ public class Main extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        screen = screen.respondToUserInput(e);
+        screen.respondToUserInput(e);
         // repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // System.out.println("x:" + e.getX() + " y:" + e.getY());
+        screen.respondToUserMouse(e);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
     private void paintByTimer(){
@@ -111,5 +144,7 @@ public class Main extends JFrame implements KeyListener {
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.setVisible(true);
     }
+
+
 
 }

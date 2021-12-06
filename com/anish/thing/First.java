@@ -25,16 +25,28 @@ public class First extends Creature{
         moveByThread(this);
     }
 
+    public First(World world, int xPos, int yPos, String team){
+        super((char)202, world, xPos, yPos, team);
+        this.name = FIRST;
+        target = null;
+        this.speed = 500;        
+        this.HP = 100;
+        this.MaxHP = 100;
+        this.Defence = 0;
+        this.ATK = 10;
+        moveByThread(this);
+    }
+
     private Thing target;
 
     public void moveRandom(){
         Random random = new Random();
         int k = random.nextInt(4);
         switch(k){
-            case 0:moveBy(0, 1);    break;
-            case 1:moveBy(0, -1);   break;
-            case 2:moveBy(-1, 0);   break;
-            case 3:moveBy(1, 0);    break;
+            case UP:moveUp();    break;
+            case DOWN:moveDown();   break;
+            case RIGHT:moveRight();;   break;
+            case LEFT:moveLeft();;    break;
         }
     }
 
@@ -101,8 +113,29 @@ public class First extends Creature{
     @Override
     public void moveWithHandle(int xPos, int yPos) {
         Thing temp = moveBy(xPos, yPos);
-        if( temp != null && (this.ifSelected() == true ||(temp == target && target.ifExist()))){
+        if(DebugFirstMove){
+            System.out.println(" Team:" + this.team + " Name:" + this.name + " tile:" + this.world.get(this.getX(), this.getY()).name);
+        }
+        if( temp != null && ((this.ifSelected() == true && this.enemyTeam == temp.getTeam())||(temp == target && target.ifExist()))){
             this.Attack(temp);
+        }
+        this.changeGlyph();
+    }
+
+    void changeGlyph(){
+        switch(this.toward){
+            case UP:
+                this.setGlyph((char)202);
+                break;
+            case DOWN:
+                this.setGlyph((char)203);
+                break;
+            case LEFT:
+                this.setGlyph((char)185);
+                break;
+            case RIGHT:
+                this.setGlyph((char)204);
+                break;
         }
     }
     
@@ -145,7 +178,7 @@ public class First extends Creature{
             }
             @Override
             public void run(){
-                if(WorldScreen.gameStart == false || first.selected == true){
+                if(WorldScreen.gameStart == false || WorldScreen.gamePause == true || first.selected == true){
                     synchronized(first){
                         try{
                             first.wait();

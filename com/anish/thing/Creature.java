@@ -32,10 +32,31 @@ public class Creature extends Thing implements Debug {
         if (team == BLUETEAM) {
             this.enemyTeam = REDTEAM;
             this.enemyList = world.getRed();
+            this.setColor(Color.BLUE);
         } else if (team == REDTEAM) {
             this.enemyTeam = BLUETEAM;
             this.enemyList = world.getBlue();
-        }        
+            this.setColor(Color.RED);
+        }      
+        this.exist = true;
+        this.toward = 1;
+    }
+
+    Creature(char glyph, World world, int xPos, int yPos, String team){
+        super(Color.BLACK, glyph, world);
+        this.team = team;
+        if (team == BLUETEAM) {
+            this.enemyTeam = REDTEAM;
+            this.enemyList = world.getRed();
+            this.setColor(Color.BLUE);
+        } else if (team == REDTEAM) {
+            this.enemyTeam = BLUETEAM;
+            this.enemyList = world.getBlue();
+            this.setColor(Color.RED);
+        }
+        this.xPos = xPos;
+        this.yPos = yPos;
+        world.put(this, xPos, yPos);
         this.exist = true;
         this.toward = 1;
     }
@@ -140,6 +161,15 @@ public class Creature extends Thing implements Debug {
     @Override
     public boolean ifExist() {
         return this.exist;
+    }
+
+    protected long curTime = 0;
+    boolean timeToAttack() {
+        if (System.currentTimeMillis() - curTime >= 200) {
+            curTime = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
     @Override

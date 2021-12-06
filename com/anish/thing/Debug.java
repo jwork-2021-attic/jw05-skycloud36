@@ -1,8 +1,9 @@
 package com.anish.thing;
 
 public interface Debug {
-    boolean DebugPlayerMove = false;
+    boolean DebugFirstMove = false;
     boolean DebugEnemyMove = false;
+    boolean DebugBulletMove = true;
     boolean DebugBulletMoveDirect = false;
 
     boolean DebugPlayerBeAttacked = false;

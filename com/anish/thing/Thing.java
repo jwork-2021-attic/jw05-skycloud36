@@ -66,4 +66,6 @@ public class Thing implements CreatureAttribute{
     public String getName(){
         return this.name;
     }
+
+    
 }
