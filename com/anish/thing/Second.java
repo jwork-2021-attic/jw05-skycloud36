@@ -23,7 +23,7 @@ public class Second extends Creature {
         this.HP = 100;
         this.MaxHP = 100;
         this.Defence = 0;
-        this.ATK = 10;
+        this.ATK = 50;
         curTime = System.currentTimeMillis();
         this.bullets = new ArrayList<>(100);
         bulletByThread(this, 50);
@@ -206,6 +206,15 @@ public class Second extends Creature {
             @Override
             public void run() {
                 synchronized (this.second.bullets) {
+                    if (WorldScreen.gameStart == false || WorldScreen.gamePause == true) {
+                        synchronized (this.second) {
+                            try {
+                                this.second.wait();
+                            } catch (InterruptedException i) {
+                                System.out.println(i);
+                            }
+                        }
+                    }
                     Iterator<Bullet> it = second.bullets.iterator();
                     Bullet bullet;
                     while (it.hasNext()) {
@@ -214,14 +223,6 @@ public class Second extends Creature {
                             bullet.moveDirect();
                         } else {
                             it.remove();
-                        }
-                        if (WorldScreen.gameStart == false || WorldScreen.gamePause == true) {
-                            synchronized (this.second) {
-                                try {
-                                    this.second.wait();
-                                } catch (InterruptedException i) {
-                                }
-                            }
                         }
                     }
                     if (second.ifExist() == false) {
@@ -253,7 +254,6 @@ public class Second extends Creature {
                     synchronized (this.second) {
                         try {
                             this.second.wait();
-                            this.second.notify();
                         } catch (Exception r) {
                         }
                     }

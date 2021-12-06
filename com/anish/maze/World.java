@@ -95,11 +95,15 @@ public class World {
     }
 
     public void addBlue(Creature creature){
-        this.blueTeam.add(creature);
+        synchronized(this.blueTeam){
+            this.blueTeam.add(creature);
+        }
     }
 
     public void addRed(Creature creature){
-        this.redTeam.add(creature);
+        synchronized(this.redTeam){
+            this.redTeam.add(creature);
+        }
     }
 
     public List<Creature> getBlue(){

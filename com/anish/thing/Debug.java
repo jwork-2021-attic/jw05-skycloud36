@@ -3,7 +3,7 @@ package com.anish.thing;
 public interface Debug {
     boolean DebugFirstMove = false;
     boolean DebugEnemyMove = false;
-    boolean DebugBulletMove = true;
+    boolean DebugBulletMove = false;
     boolean DebugBulletMoveDirect = false;
 
     boolean DebugPlayerBeAttacked = false;

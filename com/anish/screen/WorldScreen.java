@@ -37,16 +37,15 @@ public class WorldScreen implements Screen {
     public WorldScreen() {
         world = new World();
         Second b1 = new Second(world, 70, 27,CreatureAttribute.BLUETEAM);   world.addBlue(b1);
-        Second b2 = new Second(world, 70, 6,CreatureAttribute.BLUETEAM);    world.addBlue(b2);
+        Second b2 = new Second(world, 70, 16,CreatureAttribute.BLUETEAM);    world.addBlue(b2);
         Second b3 = new Second(world, 70, 19,CreatureAttribute.BLUETEAM);    world.addBlue(b3);
-        First b4 = new First(world, 40, 20,CreatureAttribute.BLUETEAM);   world.addBlue(b4);
-        First b5 = new First(world, 40, 21, CreatureAttribute.BLUETEAM);     world.addBlue(b5);
-        // First r1 = new First(world, 3, 4,CreatureAttribute.REDTEAM);        world.addRed(r1);
-        // First r2 = new First(world, 10, 7,CreatureAttribute.REDTEAM);        world.addRed(r2);
-        // First r3 = new First(world, 5, 15,CreatureAttribute.REDTEAM);        world.addRed(r3);
-        // Second r4 = new Second(world, 30, 1,CreatureAttribute.REDTEAM);      world.addRed(r4);
-        // Second r5 = new Second(world, 60, 18,CreatureAttribute.REDTEAM);     world.addRed(r5);
-        // this.gameStart();
+        Second b4 = new Second(world, 70, 2,CreatureAttribute.BLUETEAM);   world.addBlue(b4);
+        Second b5 = new Second(world, 70, 6,CreatureAttribute.BLUETEAM);    world.addBlue(b5);
+        Second b6 = new Second(world, 70, 35,CreatureAttribute.BLUETEAM);    world.addBlue(b6);
+        First b7 = new First(world, 40, 20,CreatureAttribute.BLUETEAM);   world.addBlue(b7);
+        First b8 = new First(world, 40, 21, CreatureAttribute.BLUETEAM);     world.addBlue(b8);
+        First b9 = new First(world, 40, 25,CreatureAttribute.BLUETEAM);   world.addBlue(b9);
+        First b10 = new First(world, 40, 18, CreatureAttribute.BLUETEAM);     world.addBlue(b10);
     }
 
     @Override
@@ -189,12 +188,12 @@ public class WorldScreen implements Screen {
         this.gameStart = true;
         for (Creature t : world.getBlue()) {
             synchronized (t) {
-                t.notify();
+                t.notifyAll();
             }
         }
         for (Creature t : world.getRed()) {
             synchronized (t) {
-                t.notify();
+                t.notifyAll();
             }
         }        
         if (choose == null || !choose.ifExist()) {
@@ -208,12 +207,12 @@ public class WorldScreen implements Screen {
         this.gamePause = false;
         for (Creature t : world.getBlue()) {
             synchronized (t) {
-                t.notify();
+                t.notifyAll();
             }
         }
         for (Creature t : world.getRed()) {
             synchronized (t) {
-                t.notify();
+                t.notifyAll();
             }
         }
     }
@@ -239,7 +238,7 @@ public class WorldScreen implements Screen {
         if (this.player != null) {
             synchronized (player) {
                 player.UnSelect();
-                player.notify();
+                player.notifyAll();
             }
             if (player.ifExist()) {
                 this.ChoosePlayer(player);

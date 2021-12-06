@@ -17,10 +17,10 @@ public class First extends Creature{
         this.name = FIRST;
         target = null;
         this.speed = 500;        
-        this.HP = 100;
-        this.MaxHP = 100;
+        this.HP = 200;
+        this.MaxHP = 200;
         this.Defence = 0;
-        this.ATK = 10;
+        this.ATK = 40;
         moveByThread(this);
     }
 
@@ -40,10 +40,12 @@ public class First extends Creature{
     public void moveByAI(){
         if(target == null || target.ifExist() == false){
             int min = 1000;
-            for(Creature t : this.enemyList){
-                int len = Math.abs(t.getX() - this.getX()) + Math.abs(t.getY() - this.getY());
-                if(len < min){
-                    target = t;
+            synchronized(this.enemyList){
+                for(Creature t : this.enemyList){
+                    int len = Math.abs(t.getX() - this.getX()) + Math.abs(t.getY() - this.getY());
+                    if(len < min){
+                        target = t;
+                    }
                 }
             }
             if(target == null || target.ifExist() == false){
